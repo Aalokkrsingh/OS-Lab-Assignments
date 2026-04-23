@@ -110,7 +110,7 @@ C-SCAN → Uniform wait time
 ## ▶️ How to Run  
 
 Example:
-cd Assignment-4-Disk-Scheduling
+cd Assignment-4-Disk-Scheduling\
 python disk_scheduling.py
 
 
