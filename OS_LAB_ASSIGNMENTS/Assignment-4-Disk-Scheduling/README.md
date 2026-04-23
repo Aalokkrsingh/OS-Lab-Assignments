@@ -47,7 +47,7 @@ Assignment-4-Disk-Scheduling/
 ---
 
 ## ▶️ How to Run  
-cd Assignment-4-Disk-Scheduling
+cd Assignment-4-Disk-Scheduling/
 python disk_scheduling.py
 
 ---
