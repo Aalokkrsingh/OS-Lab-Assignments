@@ -49,7 +49,7 @@ Assignment-3-Page-Replacement/
 
 ## ▶️ How to Run  
 
-cd Assignment-3-Page-Replacement
+cd Assignment-3-Page-Replacement\
 python main.py
 
 ---
