@@ -1,179 +1,114 @@
 # 💽 Disk Scheduling Algorithms — Seek Time Optimization  
-### OS Lab Assignment 4 | ENCA252  
-**BCA (AI & Data Science) | K.R. Mangalam University, Gurugram**
+OS Lab Assignment 4 | ENCA252  
+BCA (AI & Data Science) | K.R. Mangalam University, Gurugram  
 
 ---
 
-## 📌 Problem Statement
+## 📌 Problem Statement  
 
-Disk scheduling is an essential function of operating systems that determines the order in which disk I/O requests are serviced. Efficient disk scheduling improves system performance by reducing seek time and increasing throughput.
+Disk scheduling is an essential function of operating systems that determines the order in which disk I/O requests are serviced. Efficient scheduling reduces seek time and improves system performance.  
 
-This assignment implements and analyzes multiple disk scheduling algorithms:
-- FCFS (First Come First Serve)  
-- SSTF (Shortest Seek Time First)  
-- SCAN (Elevator Algorithm)  
-- C-SCAN (Circular SCAN)  
-
-The goal is to minimize **total seek time** and compare algorithm efficiency.
+This assignment implements multiple disk scheduling algorithms to optimize disk head movement and minimize total seek time.  
 
 ---
 
-## 🎯 Objectives
+## 🎯 Objectives  
 
-- Understand disk scheduling concepts  
-- Implement various disk scheduling algorithms  
-- Calculate total seek time  
-- Compare performance of algorithms  
-- Analyze system efficiency  
-
----
-
-## 🗂️ File Structure
-Assignment-4-Disk-Scheduling\
-│\
-├── disk_scheduling.py\
-├── output_screenshots\
-└── README.md
+Understand disk scheduling concepts  
+Implement disk scheduling algorithms in Python  
+Calculate total seek time  
+Compare performance of different algorithms  
+Analyze system efficiency  
 
 ---
 
-## ▶️ How to Run
+## 🗂️ File Structure  
 
-```bash
-#Disk Scheduling Algorithms
+Assignment-4-Disk-Scheduling/  
+│  
+├── disk_scheduling.py  
+├── output_screenshots/  
+└── README.md  
 
-def fcfs(requests, head):
-    seek = 0
-    sequence = []
+---
 
-    for r in requests:
-        seek += abs(head - r)
-        head = r
-        sequence.append(r)
+## 📚 Concepts Used  
 
-    return seek, sequence
+| Term | Description |
+|------|-------------|
+| Disk Request | Request for disk access |
+| Seek Time | Time taken by head movement |
+| Head Movement | Movement of disk arm |
+| FCFS | Serves requests in arrival order |
+| SSTF | Serves nearest request first |
+| SCAN | Moves like elevator |
+| C-SCAN | Moves in one direction only |
 
+---
 
-def sstf(requests, head):
-    req = requests.copy()
-    seek = 0
-    sequence = []
+## ▶️ How to Run  
+cd Assignment-4-Disk-Scheduling
+python disk_scheduling.py
 
-    while req:
-        nearest = min(req, key=lambda x: abs(x - head))
-        seek += abs(head - nearest)
-        head = nearest
-        sequence.append(nearest)
-        req.remove(nearest)
+---
 
-    return seek, sequence
+## 🧪 Sample Input Used  
 
+Disk Requests:  
+98 183 37 122 14 124 65 67  
 
-def scan(requests, head, disk_size):
-    seek = 0
-    sequence = []
+Initial Head Position: 53  
 
-    left = [r for r in requests if r < head]
-    right = [r for r in requests if r >= head]
+Disk Size: 200  
 
-    left.sort(reverse=True)
-    right.sort()
+---
 
-    for r in right:
-        seek += abs(head - r)
-        head = r
-        sequence.append(r)
+## 📊 Sample Output  
 
-    # move to end
-    seek += abs(head - (disk_size - 1))
-    head = disk_size - 1
+Total Seek Time:  
 
-    for r in left:
-        seek += abs(head - r)
-        head = r
-        sequence.append(r)
+FCFS: 640  
+SSTF: 236  
+SCAN: 331  
+C-SCAN: 382  
 
-    return seek, sequence
+---
 
+## 📈 Performance Comparison  
 
-def cscan(requests, head, disk_size):
-    seek = 0
-    sequence = []
+| Algorithm | Seek Time |
+|----------|----------|
+| FCFS     | 640 ❌ |
+| SSTF     | 236 ✅ Best |
+| SCAN     | 331 |
+| C-SCAN   | 382 |
 
-    left = [r for r in requests if r < head]
-    right = [r for r in requests if r >= head]
+---
 
-    left.sort()
-    right.sort()
+## 🔍 Result Analysis  
 
-    for r in right:
-        seek += abs(head - r)
-        head = r
-        sequence.append(r)
+SSTF provides the minimum seek time and best performance in most cases.  
 
-    # jump to start
-    seek += abs(head - (disk_size - 1))
-    head = 0
-    seek += disk_size - 1
+SCAN offers balanced performance by servicing requests in both directions.  
 
-    for r in left:
-        seek += abs(head - r)
-        head = r
-        sequence.append(r)
+C-SCAN ensures uniform waiting time for all requests.  
 
-    return seek, sequence
+FCFS is simple but inefficient due to higher seek time.  
 
+---
 
-# ---------------- INPUT ----------------
-requests = list(map(int, input("Enter disk requests: ").split()))
-head = int(input("Enter initial head position: "))
-disk_size = int(input("Enter disk size: "))
+## 🛠️ Tools & Technologies  
 
-# ---------------- OUTPUT ----------------
-print("\nResults:\n")
+Language: Python 3.x  
+Libraries: Built-in only  
+Platform: Windows / Linux / macOS  
 
-seek, seq = fcfs(requests, head)
-print("FCFS:")
-print("Sequence:", seq)
-print("Seek Time:", seek)
+---
 
-seek, seq = sstf(requests, head)
-print("\nSSTF:")
-print("Sequence:", seq)
-print("Seek Time:", seek)
+## 👨‍💻 Submitted By  
 
-seek, seq = scan(requests, head, disk_size)
-print("\nSCAN:")
-print("Sequence:", seq)
-print("Seek Time:", seek)
+Aalok Kumar Singh  
+BCA (AI & Data Science)  
+K.R. Mangalam University  
 
-seek, seq = cscan(requests, head, disk_size)
-print("\nC-SCAN:")
-print("Sequence:", seq)
-print("Seek Time:", seek)
-```
-
-🧪 Sample Input\
-Enter disk requests: 98 183 37 122 14 124 65 67\
-Enter initial head position: 53\
-Enter disk size: 200
-
-📊 Sample Output\
-FCFS:\
-Seek Time: 640
-
-SSTF:\
-Seek Time: 236
-
-SCAN:\
-Seek Time: 331
-
-C-SCAN:\
-Seek Time: 382
-
-📈 Performance Comparison\
-Algorithm	Seek Time\
-FCFS	640 ❌\
-SSTF	236 ✅ Best\
-SCAN	331\
-C-SCAN	382
+Make sure Python 3.x is installed.  
